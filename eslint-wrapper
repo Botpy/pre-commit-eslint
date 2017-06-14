@@ -37,7 +37,7 @@ def eslint(argv=None):
               end="\t")
 
         try:
-            subprocess.check_output(" ".join(['eslint'] + argv + [fn]),
+            subprocess.check_output("eslint " + fn,
                                     shell=True)
         except subprocess.CalledProcessError as e:
             print(" FAILED")
@@ -47,3 +47,7 @@ def eslint(argv=None):
             print(" PASSED")
 
     sys.exit(1 if errors else 0)
+
+
+if __name__ == "__main__":
+    eslint()
