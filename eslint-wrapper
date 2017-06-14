@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+""" """
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import argparse
+import subprocess
+import sys
+
+
+def eslint(argv=None):
+    """Use eslint checkes JavaScript files.
+
+    Source: https://gist.github.com/NorikDavtian/6dce4927fd4d01574d1b
+    """
+    if argv is None:
+        argv = sys.argv[1:]
+
+    parser = argparse.ArgumentParser(__name__)
+    parser.add_argument('filenames', nargs='*',
+                        help='JavaScript filenames to check.')
+
+    ns, argv = parser.parse_known_args(argv)
+
+    errors = False
+
+    count = len(ns.filenames)
+
+    for i, fn in enumerate(ns.filenames):
+        # Skip compressed file
+        if fn.endswith(".min.js"):
+            continue
+
+        print("Running ESLint on %s (file %d/%d).." % (fn, i + 1, count),
+              end="\t")
+
+        try:
+            subprocess.check_output(" ".join(['eslint'] + argv + [fn]),
+                                    shell=True)
+        except subprocess.CalledProcessError as e:
+            print(" FAILED")
+            sys.stderr.write(e.output)
+            errors = True
+        else:
+            print(" PASSED")
+
+    sys.exit(1 if errors else 0)

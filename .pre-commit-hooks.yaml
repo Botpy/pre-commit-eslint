@@ -1,0 +1,6 @@
+- id: eslint
+  name: ESLint
+  description: This hook runs eslint to check JavaScript files.
+  entry: ./eslint-wrapper
+  language: system
+  files: \.js$
