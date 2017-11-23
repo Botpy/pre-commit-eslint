@@ -10,6 +10,8 @@ import subprocess
 import sys
 import os
 
+PY3 = sys.version_info >= (3, )
+
 
 def eslint(argv=None):
     """Use eslint checkes JavaScript files.
@@ -47,7 +49,8 @@ def eslint(argv=None):
             subprocess.check_output(command, shell=True)
         except subprocess.CalledProcessError as e:
             print(" FAILED")
-            sys.stderr.write(e.output)
+            # Python3 write argument should be a str(unicode) object
+            sys.stderr.write(e.output.decode("utf8") if PY3 else e.output)
             errors = True
         else:
             print(" PASSED")
