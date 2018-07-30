@@ -32,7 +32,7 @@ def eslint(argv=None):
     count = len(ns.filenames)
 
     if os.path.exists(os.path.join(os.getcwd(), "package.json")):
-        linter = "npm run lint --"
+        linter = "yarn lint"
     else:
         linter = "eslint"
 
